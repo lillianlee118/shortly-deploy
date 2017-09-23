@@ -11,7 +11,8 @@ public/dist
 # Icon must ends with two \r.
 Icon
 
-
+#Mongo
+mongodb/*
 
 
 # Floobits
