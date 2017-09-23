@@ -1,6 +1,7 @@
 var db = require('../config');
 var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
+var {User, userSchema} = require('./db/mgdb');
 
 var User = db.Model.extend({
   tableName: 'users',
