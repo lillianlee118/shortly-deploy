@@ -2,16 +2,13 @@ var request = require('supertest');
 var express = require('express');
 var expect = require('chai').expect;
 var app = require('../server-config.js');
-
-var db = require('../app/config');
-var User = require('../app/models/user');
-var Link = require('../app/models/link');
+var {User, Url} = require('../app/models');
 
 /////////////////////////////////////////////////////
 // NOTE: these tests are designed for mongo!
 /////////////////////////////////////////////////////
 
-xdescribe('', function() {
+describe('', function() {
 
   beforeEach(function(done) {
     // Log out currently signed in user
@@ -20,7 +17,7 @@ xdescribe('', function() {
       .end(function(err, res) {
 
         // Delete objects from db so they can be created later for the test
-        Link.remove({url: 'http://www.roflzoo.com/'}).exec();
+        Url.remove({url: 'http://www.roflzoo.com/'}).exec();
         User.remove({username: 'Savannah'}).exec();
         User.remove({username: 'Phillip'}).exec();
 
@@ -61,7 +58,7 @@ xdescribe('', function() {
             'url': 'http://www.roflzoo.com/'})
           .expect(200)
           .expect(function(res) {
-            Link.findOne({'url': 'http://www.roflzoo.com/'})
+            Url.findOne({'url': 'http://www.roflzoo.com/'})
               .exec(function(err, link) {
                 if (err) { console.log(err); }
                 expect(link.url).to.equal('http://www.roflzoo.com/');
@@ -77,7 +74,7 @@ xdescribe('', function() {
             'url': 'http://www.roflzoo.com/'})
           .expect(200)
           .expect(function(res) {
-            Link.findOne({'url': 'http://www.roflzoo.com/'})
+            Url.findOne({'url': 'http://www.roflzoo.com/'})
               .exec(function(err, link) {
                 if (err) { console.log(err); }
                 expect(link.title).to.equal('Funny pictures of animals, funny dog pictures');
@@ -91,7 +88,7 @@ xdescribe('', function() {
     describe('With previously saved urls: ', function() {
 
       beforeEach(function(done) {
-        link = new Link({
+        link = new Url({
           url: 'http://www.roflzoo.com/',
           title: 'Funny pictures of animals, funny dog pictures',
           baseUrl: 'http://127.0.0.1:4568',
